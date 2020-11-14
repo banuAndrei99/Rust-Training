@@ -4,6 +4,28 @@
 
 use std::mem;
 
+struct Point{
+    x: f64,
+    y: f64
+}
+
+
+fn origin() -> Point{
+    Point{x: 0.0, y: 0.0}
+}
+
+
+pub fn stack_and_heap(){
+    let p1 = origin();
+    // Box construct allocates memory on the heap
+    let p2 = Box::new(origin()); // p2 is a pointer to the location where the Point is actually stored
+
+    println!("p1 takes up {} bytes", mem::size_of_val(&p1));  // 16 bytes = the whole memory allocated
+    println!("p2 takes up {} bytes", mem::size_of_val(&p2));  // 8 bytes = the memory allocated for the address pointer
+
+    let p3 = *p2;  // * -> putting the value back on the stack --> unBox-ing
+}
+
 
 fn main() {
     let a: u8 = 123;  // u = unsigned, 8 bits --> 0 - 255
@@ -41,4 +63,5 @@ fn main() {
     let g = false; // type inferred to bool
     println!("g = {}, takes up {} bytes", g, mem::size_of_val(&g));
 
+    stack_and_heap();
 }
